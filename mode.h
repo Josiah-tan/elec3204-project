@@ -27,6 +27,8 @@ class Mode{
 		}
 		void init(){
 			switch (_mode) {
+				case PWM_TEST:
+					break;
 				case SERIAL_TEST:
 					serial.init();
 					break;

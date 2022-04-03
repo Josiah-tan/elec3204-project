@@ -13,8 +13,8 @@ class SerialDriver{
 		}
 		void test() {
 			while (!Serial.available());
-			read_string = Serial.readString().toInt();
-			Serial.print(read_string + 1);
+			String read_string = Serial.readString();
+			Serial.print(read_string);
 		}
 };
 

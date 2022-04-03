@@ -6,7 +6,7 @@ arduino = serial.Serial(port='/dev/ttyS4', baudrate=115200, timeout=1)
 def writeRead(x):
     arduino.write(bytes(x, 'utf-8'))
     time.sleep(0.05)
-    data = arduino.readline()
+    data = arduino.readline().decode('utf-8')
     return data
 
 
