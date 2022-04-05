@@ -9,10 +9,10 @@ class Plant{
 		Plant(int delaytime = 1000): delaytime(delaytime) {
 			
 		}
-		void init(){
+		void setup(){
 			pinMode(LED_BUILTIN, OUTPUT);
 		}
-		void run(){
+		void loop(){
 			digitalWrite(LED_BUILTIN, HIGH);
 			delay(delaytime);
 			digitalWrite(LED_BUILTIN, LOW);

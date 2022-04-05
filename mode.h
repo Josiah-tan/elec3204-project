@@ -16,7 +16,6 @@ class Mode{
 		Mode(MODE _mode): _mode(_mode) {
 			switch (_mode) {
 				case PWM_TEST:
-					pwm = PWM();
 					break;
 				case SERIAL_TEST:
 					serial = SerialDriver();
@@ -25,21 +24,21 @@ class Mode{
 					break;
 			}
 		}
-		void init(){
+		void setup(){
 			switch (_mode) {
 				case PWM_TEST:
 					break;
 				case SERIAL_TEST:
-					serial.init();
+					serial.setup();
 					break;
 				default:
 					break;
 			}
 		}
-		void run(){
+		void loop(){
 			switch (_mode) {
 				case PWM_TEST:
-					pwm.test();
+					PWM_Test::simple();
 					break;
 				case SERIAL_TEST:
 					serial.test();

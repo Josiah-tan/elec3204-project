@@ -3,9 +3,9 @@
 
 Mode mode(SERIAL_TEST);
 void setup() {
-	mode.init();
+	mode.setup();
 }
 
 void loop() {
-	mode.run();
+	mode.loop();
 }

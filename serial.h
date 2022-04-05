@@ -7,7 +7,7 @@ class SerialDriver{
 		int read_string;
 	public:
 		SerialDriver() {}
-		void init() {
+		void setup() {
 			Serial.begin(115200);
 			Serial.setTimeout(1);
 		}
