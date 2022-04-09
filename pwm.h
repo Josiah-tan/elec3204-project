@@ -44,33 +44,27 @@ class PWM{
 			TCCR1A |= _BV(WGM11); //Set ICR1 phas correct mode
 		}
 
-		// void setup() {
-		// 	pinMode(LED_BUILTIN, OUTPUT);
-		// }
-		//
-		// void loop() {
-		// 	digitalWrite(LED_BUILTIN, HIGH);
-		// 	delay(1000);
-		// 	digitalWrite(LED_BUILTIN, LOW);
-		// 	delay(1000);
-		// }
 };
 
-class PWM_Test{
-	public:
-		static void simple() {
-			PWM pwm;
-			pwm.setup();
-			while (true) {
-				pwm.set(30); // set duty of pwm as 30%
-				delay(1000);
-			}
-		}
-};
+// class PWM_Test{
+// 	public:
+//
+// 		static void simple() {
+// 			PWM pwm;
+// 			pwm.setup();
+// 			pwm.set(99);
+// 			// while (true) {
+// 			// 	pwm.set(99); // set duty of pwm as 30%
+// 			// 	delay(1000);
+// 			// }
+// 		}
+// };
 
 
 
 
 
 
+// frequency from there, divide by 12
+// // this the the resolution per second, the revolution per minute multiply by 60 cause by minute, this is the PHO*ERT RPM, gear ratio 99.the result get from here, that frequency, / 12* 60 / 99, and then get the actual value PWM
 #endif

@@ -4,17 +4,23 @@
 
 class SerialDriver{
 	private:
-		int read_string;
+		String read_string;
+		int read_number;
 	public:
 		SerialDriver() {}
 		void setup() {
 			Serial.begin(115200);
+			// Serial.begin(2000000);
 			Serial.setTimeout(1);
 		}
 		void test() {
 			while (!Serial.available());
-			String read_string = Serial.readString();
+			read_string = Serial.readString();
+			read_number = read_string.toInt();
 			Serial.print(read_string);
+		}
+		void testSend() {
+			Serial.print("hello world");
 		}
 };
 

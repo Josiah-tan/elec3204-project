@@ -11,8 +11,12 @@ def writeRead(x):
 
 
 while True:
-    num = input("enter a command: ") # Taking input from user
-    value = writeRead(num)
-    print(value) # printing the value
+    # time.sleep(0.05)
+    data = arduino.readline()
+    # data = arduino.readline().decode('utf-8')
+    print(data)
+    # num = input("enter a command: ") # Taking input from user
+    # value = writeRead(num)
+    # print(value) # printing the value
 
 
