@@ -7,11 +7,11 @@ class SerialDriver{
 		String read_string;
 		int read_number;
 	public:
-		SerialDriver() {}
+		SerialDriver(int read_number = 0): read_number(read_number){}
 		void setup() {
 			Serial.begin(115200);
 			// Serial.begin(2000000);
-			Serial.setTimeout(1);
+			Serial.setTimeout(1); // important for readString();
 		}
 		void test() {
 			while (!Serial.available());
@@ -21,6 +21,14 @@ class SerialDriver{
 		}
 		void testSend() {
 			Serial.print("hello world");
+		}
+		int getReference() {
+			if (Serial.available()){
+				read_string = Serial.readString();
+				read_number = read_string.toInt();
+				Serial.println(read_string);
+			}
+			return read_number;
 		}
 };
 

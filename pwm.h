@@ -63,7 +63,8 @@ class PWM{
 
 
 
-
+// 60 / (99 * 12 * (526 * 10 **-6))
+// (99 * 12 * (10 **-6))
 
 // frequency from there, divide by 12
 // // this the the resolution per second, the revolution per minute multiply by 60 cause by minute, this is the PHO*ERT RPM, gear ratio 99.the result get from here, that frequency, / 12* 60 / 99, and then get the actual value PWM

@@ -24,9 +24,9 @@ class Sensor{
 			pinMode(pinA, INPUT);
 			pinMode(pinB, INPUT);
 			lastA = digitalRead(pinA);
-			last_time = millis();
+			last_time = micros();
 		}
-		void loop() {
+		void update() {
 			currentA = digitalRead(pinA);
 			// Serial.println(digitalRead(pinB));
 
@@ -34,27 +34,39 @@ class Sensor{
 				unsigned long current_time = micros();
 				period = current_time - last_time;
 				last_time = current_time;
-				Serial.println(period);
 
 				if (digitalRead(pinB) != currentA) {
-					counter --;
+					counter--;
 					direction = CLOCK;
-				}
-				else {
-					counter ++;
+					// Serial.println("clock");
+				} else {
+					counter++;
 					direction = ANTI;
+					// Serial.println("anti");
 				}
 			}
 			lastA = currentA;
 		}
 		void test(){
-			loop();
+			update();
 			// Serial.println("hello whorl");
 			// Serial.print(period);
 			// int currentA = digitalRead(pinA);
 			// int currentB = digitalRead(pinB);
 			// Serial.println(currentB);
 			// Serial.println(currentA);
+		}
+		
+		int getSpeed(){
+			update();
+			// 60 / (99 * 12 * (period * 10 **-6))
+			int speed = 60 / 0.001188 / period;
+			if (ANTI) {
+				return -speed;
+			}
+			else {
+				return speed;
+			}
 		}
 };
 

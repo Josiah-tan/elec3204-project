@@ -9,14 +9,18 @@ def writeRead(x):
     data = arduino.readline().decode('utf-8')
     return data
 
-
 while True:
-    # time.sleep(0.05)
-    data = arduino.readline()
-    # data = arduino.readline().decode('utf-8')
-    print(data)
-    # num = input("enter a command: ") # Taking input from user
-    # value = writeRead(num)
-    # print(value) # printing the value
+    command = input("enter a command: ")
+    print(writeRead(command))
+    # arduino.write(bytes(command, 'utf-8'))
+
+# while True:
+#     # time.sleep(0.05)
+#     data = arduino.readline()
+#     # data = arduino.readline().decode('utf-8')
+#     print(data)
+#     # num = input("enter a command: ") # Taking input from user
+#     # value = writeRead(num)
+#     # print(value) # printing the value
 
 
