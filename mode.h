@@ -7,7 +7,7 @@
 #include "sensor.h"
 #include "controller.h"
 
-typedef enum {PWM_TEST, SERIAL_TEST, SPEED_READ_TEST, PLANT_TEST, IDLE} MODE;
+typedef enum {PWM_TEST, SERIAL_TEST, SPEED_READ_TEST, CLOSED_LOOP_TEST, OPEN_LOOP_TEST, IDLE} MODE;
 
 class Mode{
 	private:
@@ -29,7 +29,13 @@ class Mode{
 				serial = SerialDriver();
 				sensor = Sensor(3, 4);
 			}
-			else if (_mode == PLANT_TEST){
+			else if (_mode == CLOSED_LOOP_TEST){
+				PWM pwm;
+				serial = SerialDriver();
+				sensor = Sensor(3, 4);
+				controller = Controller(1, 0, 0, true);
+			}
+			else if (_mode == OPEN_LOOP_TEST){
 				PWM pwm;
 				serial = SerialDriver();
 				sensor = Sensor(3, 4);
@@ -48,7 +54,12 @@ class Mode{
 				serial.setup();
 				sensor.setup();
 			}
-			else if (_mode == PLANT_TEST){
+			else if (_mode == CLOSED_LOOP_TEST){
+				pwm.setup();
+				serial.setup();
+				sensor.setup();
+			}
+			else if (_mode == OPEN_LOOP_TEST){
 				pwm.setup();
 				serial.setup();
 				sensor.setup();
@@ -74,12 +85,20 @@ class Mode{
 				// PWM_Test::simple();
 				sensor.test();
 			}
-			else if (_mode == PLANT_TEST){
+			else if (_mode == CLOSED_LOOP_TEST){
 				int reference = serial.getReference();
 				int speed = sensor.getSpeed();
 				int input = controller.pid(speed, reference);
 				// pwm.set(50);
 				pwm.set(input);
+			}
+			else if (_mode == OPEN_LOOP_TEST){
+				// assumes that you are sending pwm values, so don't get confused when the initial value is 0, and that causes the motor to spin
+				int reference = serial.getReference();
+				// int speed = sensor.getSpeed();
+				// int input = controller.pid(speed, reference);
+				// pwm.set(50);
+				pwm.set(reference);
 			}
 		}
 };
