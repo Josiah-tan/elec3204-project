@@ -33,7 +33,7 @@ class Mode{
 				PWM pwm;
 				serial = SerialDriver();
 				sensor = Sensor(3, 4);
-				controller = Controller(1, 0, 0, true);
+				controller = Controller(5, 0, 0, true);
 			}
 			else if (_mode == OPEN_LOOP_TEST){
 				PWM pwm;
@@ -88,6 +88,10 @@ class Mode{
 			else if (_mode == CLOSED_LOOP_TEST){
 				int reference = serial.getReference();
 				int speed = sensor.getSpeed();
+				Serial.print("reference: ");
+				Serial.println(reference);
+				Serial.print("speed: ");
+				Serial.println(speed);
 				int input = controller.pid(speed, reference);
 				// pwm.set(50);
 				pwm.set(input);

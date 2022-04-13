@@ -18,7 +18,7 @@ class Controller {
 			cache_time = micros();
 		}
 		int getSteady(int reference){
-			return 50;
+			return 50 + reference / 2;
 		}
 		float _p(int error, int reference, bool _add_steady) {
 			return P * error + _add_steady * getSteady(reference);

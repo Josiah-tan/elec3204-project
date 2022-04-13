@@ -5,8 +5,8 @@
 /* Mode mode(PWM_TEST); */
 /* Mode mode(SPEED_READ_TEST); */
 /* Mode mode(CLOSED_LOOP_TEST); */
-/* Mode mode(OPEN_LOOP_TEST); */
-Mode mode(IDLE);
+Mode mode(OPEN_LOOP_TEST);
+/* Mode mode(IDLE); */
 void setup() {
 	mode.setup();
 }

@@ -26,7 +26,7 @@ class Sensor{
 			lastA = digitalRead(pinA);
 			last_time = micros();
 		}
-		void update() {
+		void old() {
 			currentA = digitalRead(pinA);
 			// Serial.println(digitalRead(pinB));
 
@@ -47,6 +47,21 @@ class Sensor{
 			}
 			lastA = currentA;
 		}
+		void update() {
+			period = pulseIn(pinA, HIGH) * 2;
+			if (period == 0){
+				period = ULONG_MAX;
+			}
+			if (digitalRead(pinB) != currentA) {
+				direction = CLOCK;
+				Serial.println("clock");
+			} else {
+				direction = ANTI;
+				Serial.println("anti");
+			}
+			Serial.print("period: ");
+				Serial.println(period);
+		}
 		void test(){
 			update();
 			// Serial.println("hello whorl");
@@ -61,7 +76,7 @@ class Sensor{
 			update();
 			// 60 / (99 * 12 * (period * 10 **-6))
 			int speed = 60 / 0.001188 / period;
-			if (ANTI) {
+			if (direction == ANTI) {
 				return -speed;
 			}
 			else {
