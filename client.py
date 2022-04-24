@@ -1,6 +1,6 @@
 # # Importing Libraries
-# import serial
-# import time
+import serial
+import time
 # arduino = serial.Serial(port='/dev/ttyS4', baudrate=115200, timeout=1)
 # # arduino = serial.Serial(port='COM4', baudrate=115200, timeout=1)
 # def writeRead(x):
@@ -39,7 +39,6 @@
 
 import threading
 
-
 class Monitor(threading.Thread):
     def __init__(self, monitor_callback = None, name='monitor-output-thread'):
         self.monitor_callback = monitor_callback
@@ -47,29 +46,85 @@ class Monitor(threading.Thread):
         self.start()
 
     def run(self):
-        # arduino = serial.Serial(port='/dev/ttyS4', baudrate=115200, timeout=1)
-        with open("log.txt", "w") as f:
+        arduino = serial.Serial(port='/dev/ttyS4', baudrate=115200, timeout=1)
+        with open("monitor_log.txt", "w") as f:
+            # monitor_callback() # you can get something from the callback here if you need extra information
             while True:
-                # self.monitor_callback(input()) #waits to get input + Return
                 try:
-                    # data = arduino.readline().decode('utf-8')
-                    data = input("input some stuff here: ")
-                    if data == "finish":
-                        break
+                    data = arduino.readline().decode('utf-8')
                     f.write(data + "\n")
                     f.flush()
                 except:
                     pass
 
 
-
-
 def monitor_callback(inp):
     pass
 
 #start the Keyboard thread
-kthread = Monitor(monitor_callback)
+# monitor_thread = Monitor(monitor_callback)
 
-# while True:
-#     pass
-#     # data = input()
+##
+import multiprocessing
+import time
+
+commands = {
+        "pause": [[0, 2]],
+        "quick cycle": ["pause", [100, 5], "pause"],
+        "regular wash": ["pause", [100, 10], "pause"]
+        }
+
+
+def threadWrite(command):
+    with open("write_log.txt", "w") as f:
+        def sleep(delay):
+            step = 0.05
+            for i in range(int(delay / step)): # applying polling strategy
+                time.sleep(step)
+                if exit_now:
+                    return
+
+        def execute(speed, delay):
+            f.write(f"set speed: {speed}, delay: {delay}\n")
+            f.flush()
+            sleep(delay)
+            if exit_now:
+                return
+
+        def recursiveExecute(command_str):
+            for value in commands[command_str]:
+                if type(value) == str:
+                    recursiveExecute(value)
+                else: # list of type: speed (RPM), and delay (s)
+                    execute(*value)
+                if exit_now:
+                   return
+
+        f.write(f"performing {command}\n")
+        f.flush()
+        if exit_now or command == "terminate":
+            return
+        recursiveExecute(command)
+
+
+def getCommand():
+    while True:
+        command = input("provide a command here: ")
+        if command in commands:
+            return command
+        else:
+            print("invalid command, invoke GUI or type one of the following: ")
+            print(", ".join(commands.keys()))
+
+
+command_thread = None
+while True:
+    command = getCommand()
+    exit_now = True
+    if command_thread:
+        command_thread.join()
+    exit_now = False
+    command_thread = threading.Thread(target=threadWrite, args=(command,))
+    command_thread.start()
+
+##
