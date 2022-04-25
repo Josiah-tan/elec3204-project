@@ -144,5 +144,6 @@ while True:
     command_thread = threading.Thread(target=threadWrite, args=(command,))
     command_thread.start()
     if command == "terminate":
-        break;
+        break
+
 

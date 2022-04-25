@@ -2,3 +2,4 @@ __pycache__
 log.txt
 monitor_log.txt
 write_log.txt
+*.png
