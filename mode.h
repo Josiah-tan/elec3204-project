@@ -33,7 +33,7 @@ class Mode{
 				PWM pwm;
 				serial = SerialDriver();
 				sensor = Sensor(3, 4);
-				controller = Controller(1, 0, 0, true);
+				controller = Controller(1, 1, 0.01, true);
 			}
 			else if (_mode == OPEN_LOOP_TEST){
 				PWM pwm;
