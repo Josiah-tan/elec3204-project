@@ -54,13 +54,13 @@ class Sensor{
 			}
 			if (digitalRead(pinB) != currentA) {
 				direction = CLOCK;
-				Serial.println("clock");
+				// Serial.println("clock");
 			} else {
 				direction = ANTI;
-				Serial.println("anti");
+				// Serial.println("anti");
 			}
-			Serial.print("period: ");
-				Serial.println(period);
+			// Serial.print("period: ");
+				// Serial.println(period);
 		}
 		void test(){
 			update();

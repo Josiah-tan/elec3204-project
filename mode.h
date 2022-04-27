@@ -33,7 +33,7 @@ class Mode{
 				PWM pwm;
 				serial = SerialDriver();
 				sensor = Sensor(3, 4);
-				controller = Controller(5, 0, 0, true);
+				controller = Controller(1, 0, 0, true);
 			}
 			else if (_mode == OPEN_LOOP_TEST){
 				PWM pwm;
@@ -75,7 +75,8 @@ class Mode{
 			}
 			else if (_mode == SERIAL_TEST) {
 				// serial.test();
-				serial.testSend();
+				// serial.testSend();
+				serial.testGUI();
 			}
 			else if (_mode == SPEED_READ_TEST){
 				// should be anticlockwise
@@ -94,7 +95,12 @@ class Mode{
 				Serial.println(speed);
 				int input = controller.pid(speed, reference);
 				// pwm.set(50);
+				Serial.print("pwm: ");
+				Serial.println(input);
 				pwm.set(input);
+				// delay(100);
+				// delay(1);
+				// delay(100);
 			}
 			else if (_mode == OPEN_LOOP_TEST){
 				// assumes that you are sending pwm values, so don't get confused when the initial value is 0, and that causes the motor to spin
@@ -103,6 +109,7 @@ class Mode{
 				// int input = controller.pid(speed, reference);
 				// pwm.set(50);
 				pwm.set(reference);
+				Serial.println(reference);
 			}
 		}
 };

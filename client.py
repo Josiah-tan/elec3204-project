@@ -1,59 +1,26 @@
 # # Importing Libraries
 import serial
 import time
-# arduino = serial.Serial(port='/dev/ttyS4', baudrate=115200, timeout=1)
-# # arduino = serial.Serial(port='COM4', baudrate=115200, timeout=1)
-# def writeRead(x):
-#     arduino.write(bytes(x, 'utf-8'))
-#     time.sleep(0.05)
-#     data = arduino.readline()#.#decode('utf-8')
-#     return data
-# states = {"stop" : 0, "washing": 50, "cleaning": 70, "rest": 0, "spinning": 70}
-# period = {"stop" : 1, "washing": 5, "cleaning": 5, "rest": 3, "spinning": 3}
-# normal = []
-# gentle = []
-#
-# command = input("enter a command: ")
-#     # "enter an RPM" write this instead
-# print(writeRead(command))
-# while True:
-#     data = arduino.readline()
-#     print(data)
-# # while True:
-# #     command = input("enter a command: ")
-# #     # "enter an RPM" write this instead
-# #     print(writeRead(command))
-#
-# # while True:
-# #     # time.sleep(0.05)
-# #     data = arduino.readline()
-# #     # data = arduino.readline().decode('utf-8')
-# #     print(data)
-# #     # num = input("enter a command: ") # Taking input from user
-# #     # value = writeRead(num)
-# #     # print(value) # printing the value
-#
-#
-# ##
-
-
 import threading
 
+arduino = serial.Serial(port='/dev/ttyS5', baudrate=115200, timeout=1)
+
 class Monitor(threading.Thread):
-    def __init__(self, monitor_callback = None, name='monitor-output-thread'):
+    def __init__(self, monitor_callback=None, name='monitor-output-thread'):
         self.monitor_callback = monitor_callback
         super(Monitor, self).__init__(name=name)
         self.start()
 
     def run(self):
-        arduino = serial.Serial(port='/dev/ttyS4', baudrate=115200, timeout=1)
-        with open("monitor_log.txt", "a") as f:
+        with open("monitor_log.txt", "w") as f:
             # monitor_callback() # you can get something from the callback here if you need extra information
             while True:
                 try:
                     data = arduino.readline().decode('utf-8')
-                    f.write(data + "\n")
-                    f.flush()
+                    if data:
+                        f.write(data)
+                        # f.write(data + "\n")
+                        f.flush()
                 except:
                     pass
 
@@ -61,8 +28,7 @@ class Monitor(threading.Thread):
 def monitor_callback(inp):
     pass
 
-#start the Keyboard thread
-# monitor_thread = Monitor(monitor_callback)
+monitor_thread = Monitor(monitor_callback)
 
 ##
 import multiprocessing
@@ -72,14 +38,15 @@ import os
 commands = {
         "pause": [[0, 2]],
         "quick cycle": ["pause", [100, 5], "pause"],
-        "regular wash": ["pause", [100, 10], "pause"]
+        "regular wash": ["pause", [100, 10], "pause"],
+        "test": [[100, 3], [0, 3], [-100, 3], [0, 3]]
         }
 
 
 def threadWrite(command):
     with open("write_log.txt", "a") as f:
         def sleep(delay):
-            step = 0.05
+            step = 0.001
             number = int(delay / step)  # set number to negative value to loop forever
             i = 0
             while i != number:
@@ -90,7 +57,8 @@ def threadWrite(command):
 
         def execute(speed, delay):
             f.write(f"set speed: {speed}, delay: {delay}\n")
-            f.flush();
+            arduino.write(bytes(str(speed), 'utf-8'))
+            f.flush()
             sleep(delay)
             if exit_now:
                 return
@@ -132,6 +100,7 @@ def getCommand():
         else:
             print("invalid command, invoke GUI or type one of the following: ")
             print(", ".join(commands.keys()))
+
 
 
 command_thread = None

@@ -14,10 +14,11 @@ with open('monitor_log.txt', 'r') as myfile:
 
 for key, val in plots.items():
     val = zip(*val)
+    print(key)
     plt.plot(*val, label=key)
     plt.title("Motor Trajectory")
     plt.ylabel("y")
     plt.xlabel("x")
     plt.legend()
     plt.show()
-    plt.savefig("nice.png")
+    plt.savefig("output.png")

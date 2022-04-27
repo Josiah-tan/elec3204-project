@@ -22,6 +22,15 @@ class SerialDriver{
 		void testSend() {
 			Serial.print("hello world");
 		}
+		void testGUI() {
+			if (Serial.available()){
+				read_string = Serial.readString();
+				read_number = read_string.toInt();
+				Serial.print("reference ");
+				Serial.println(read_number);
+				// Serial.print(read_string);
+			}
+		}
 		int getReference() {
 			if (Serial.available()){
 				read_string = Serial.readString();
