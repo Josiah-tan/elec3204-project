@@ -25,9 +25,20 @@ class Controller {
 		}
 		float _i(int error, int cache_error, float delta_t) {
 			area += (cache_error + error) * delta_t / 2;
+			if (area < -5 || area > 5){
+				area = 0;
+			}
+			Serial.print("i: ");
+			Serial.println(area);
 			return I * area;
 		}
 		float _d(int error, int cache_error, float delta_t) {
+			// Serial.print("delta_t ");
+			// Serial.println(delta_t);
+			// Serial.print("delta_error ");
+			// Serial.println(error - cache_error);
+			// Serial.print("d: ");
+			// Serial.println(0.01 * (error - cache_error) / delta_t);
 			return D * (error - cache_error) / delta_t;
 		}
 		int pid(int speed, int reference){
@@ -37,6 +48,10 @@ class Controller {
 			float p = _p(error, reference, add_steady);
 			float i = _i(error, cache_error, delta_t);
 			float d = _d(error, cache_error, delta_t);
+			Serial.print("p: ");
+			Serial.println(p);
+			Serial.print("d: ");
+			Serial.println(d);
 			int result = p + i + d;
 			cache_error = error;
 			cache_time = cur_time;
