@@ -4,15 +4,19 @@
 
 
 class PWM{
+	/*
+	 * class: sets the pwm signal for a motor
+	 * current: current pwm value, ranges from [1, 99] -- 1 = maximum anticlockwise, and 99 = maximum clockwise (default = 50)
+	 * pinA, pinB: produces a complementary pair of pwm signals (default: pinA = 9, pinB = 10)
+	 */
 	private:
 		int pinB;
 		int pinA;
 		int current;
 	public:
-		PWM(int current = 50, int pinA = 9, int pinB = 10): current(current), pinA(pinA), pinB(pinB){
-
-		}
+		PWM(int current = 50, int pinA = 9, int pinB = 10): current(current), pinA(pinA), pinB(pinB){}
 		void setup(){
+			/* setup pwm registers */
 			pinMode(pinA, OUTPUT);  // set pin A to Q1
 			pinMode(pinB, OUTPUT); // set pin B to Q2
 			analogWrite(pinA, 0); // let pin A = 0
@@ -25,11 +29,17 @@ class PWM{
 			ICR1 = 100;//  phase correct PWM. PWM frequency determined by counting up 0-100 and counting down 100-0 in the input compare register (ICR1), so freq=200*0.5us=10kHz 
 		}
 		void loop(){
+		/* function: does nothing */
 		}
 		int get(){
+			/* function: returns the current pwm value */
 			return current;
 		}
 		void set(int pwm){
+			/* function: sets a pwm signal to the motor
+			 * parameters:
+			 *  -- pwm range between: [1, 99]
+			 */
 			current = pwm;
 			int temp = (int)pwm;
 			temp = constrain(temp,1,99);
