@@ -1,21 +1,21 @@
 local port = 5
 local terminal = 1
-local compile = function()
+local compile = function() -- compiles arduino code
 	vim.fn.execute(":wa")
 	string = "arduino-cli compile -b arduino:avr:uno -v"
 	require("harpoon.term").sendCommand(terminal, string .. "\n")
 end
-local upload = function(port)
+local upload = function(port) -- uploads arduino code
 	vim.fn.execute(":wa")
 	string = "arduino-cli upload -p /dev/ttyS"..port.." -b arduino:avr:uno -v"
 	require("harpoon.term").sendCommand(terminal, string .. "\n")
 end
-local compile_upload = function(port)
+local compile_upload = function(port) -- compiles and uploads arduino code
 	vim.fn.execute(":wa")
 	string = "arduino-cli compile -u -p /dev/ttyS"..port.." -b arduino:avr:uno -v"
 	require("harpoon.term").sendCommand(terminal, string .. "\n")
 end
-local function monitor_log()
+local function monitor_log() -- setup for running tail -f in nvim for monitor_log.txt
 	return {
 		file_name = "monitor_log.txt",
 		viewer = {
@@ -44,13 +44,14 @@ local function write_log()
 	}
 end
 
-vim.keymap.set('n', '<leader>al', function () 
+vim.keymap.set('n', '<leader>al', function ()  -- setup GUI for monitor and write log
 	RELOAD("plover_viewer.builtin").splitToggle(monitor_log())
 	vim.cmd[[wincmd p]]
 	RELOAD("plover_viewer.builtin").splitToggle(write_log())
 	vim.cmd[[wincmd h]]
 end)
 
+-- setup key bindings for compilation, upload and the combination of the two
 vim.keymap.set({"n"}, "<leader>ac", function ()
 	compile()
 end, {silent = false})
@@ -61,9 +62,9 @@ vim.keymap.set({"n"}, "<leader>ar", function ()
 	compile_upload(port)
 end, {silent = false})
 
--- the 'gui'
+-- the fuzzy finder option selector gui
 
-
+-- function to get the selection from the GUI
 local function getSelection(prompt_bufnr)
 	local content = require("telescope.actions.state").get_selected_entry(
 	prompt_bufnr
@@ -78,12 +79,14 @@ local function getSelection(prompt_bufnr)
 	return content
 end
 
+-- function to get the selection from the GUI and also send the selection to the terminal for execution
 local function selectCommand(prompt_bufnr)
 	local selection = getSelection(prompt_bufnr)
 	require("harpoon.term").sendCommand(terminal, selection.."\n")
 end
 
 
+-- member function GUI: utilizes telescope API to create a new custom finder for command selection
 M.gui = function(opts)
 		opts = vim.tbl_deep_extend("force", {
 			commands = {"quick cycle", "regular wash", "stop"}
@@ -102,6 +105,7 @@ M.gui = function(opts)
 		}):find()
 	end
 
+-- key map for invoking the GUI
 vim.api.nvim_set_keymap("n", "<Leader>gui", ':lua RELOAD("josiah.arduino").gui()<CR>', {noremap = true, silent = true, expr = false})
 
 return M
