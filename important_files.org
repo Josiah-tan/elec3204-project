@@ -1,0 +1,13 @@
+** important files to include in the report
+*** Python
+- client.py: provides GUI
+- graph.py: makes the graphs for us
+*** C++
+- project.ino: mode selection
+- mode.h: contains implementation for all the different modes
+- pwm.h: implementation of complementary pwm signal
+- sensor.h: code relating to the encoder
+- serial.h: serial communication with Python (GUI)
+- controller.h: controller (PID) implementation
+*** lua
+- arduino.lua: GUI implementation (nvim)
