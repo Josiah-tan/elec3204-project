@@ -17,6 +17,8 @@ for key, val in plots.items():
     val = zip(*val)
     key = key.replace(':', '')
     print(key)
+    if key == "referen":
+        continue
     plt.plot(*val, label=key, linewidth=0.5)
 plt.title("Motor Trajectory")
 plt.ylabel("y")
@@ -55,7 +57,7 @@ plt.title('My first graph!')
  
  # function to show the plot
 plt.show()
-plt.savefig("output.png")
+plt.savefig("test.png")
 
 
 ##
