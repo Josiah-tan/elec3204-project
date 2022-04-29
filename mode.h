@@ -107,7 +107,7 @@ class Mode{
 				// assumes that pwm values are being sent, the motor should spin at 0 (the default)
 				int reference = serial.getReference();
 				pwm.set(reference);
-				Serial.println("reference: ");
+				Serial.print("reference: ");
 				Serial.println(reference);
 			}
 			else if (_mode == CLOSED_LOOP_TEST || _mode == OPEN_LOOP_TEST){
