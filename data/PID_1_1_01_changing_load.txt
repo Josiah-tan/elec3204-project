@@ -40,7 +40,6 @@ i: 0.00
 p: 50.00
 d: 0.00
 pwm: 50
-50
 reference: 50
 speed: 0
 i: 5.00
