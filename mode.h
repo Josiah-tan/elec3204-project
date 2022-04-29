@@ -1,15 +1,19 @@
 #ifndef MODE_H
 #define MODE_H
 
-#include "plant.h"
 #include "pwm.h"
 #include "serial.h"
 #include "sensor.h"
 #include "controller.h"
 
-typedef enum {PWM_TEST, SERIAL_TEST, SPEED_READ_TEST, CLOSED_LOOP_TEST, OPEN_LOOP_TEST, IDLE} MODE;
+// different modes that can be run
+typedef enum {PWM_TEST, SERIAL_TEST, SPEED_READ_TEST, CLOSED_LOOP_TEST, OPEN_LOOP_TEST, PWM_SERIAL_TEST, IDLE} MODE;
 
 class Mode{
+	/* class: contains the main code for initialization, setup and looping
+	 * parameters:
+	 *  -- _mode: which mode should be run (of numerated type "MODE")
+	 */
 	private:
 		PWM pwm;
 		SerialDriver serial;
