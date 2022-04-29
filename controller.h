@@ -82,7 +82,7 @@ class Controller {
 			float d = _d(error, cache_error, delta_t);
 			// print out important PID information for graphing
 			Serial.print("i: ");
-			Serial.println(area);
+			Serial.println(i);
 			Serial.print("p: ");
 			Serial.println(p);
 			Serial.print("d: ");
