@@ -9,7 +9,7 @@ class Sensor{
 	/*
 	 * class: read information from the encoders to obtain speed and direction
 	 * parameters:
-	 *  -- pinA and pinB: pins that produce a complementary pair of pwm signals (default: pinA = 3, pinB = 4)
+	 *  -- pinA and pinB: pins that read a appear of signals 90 degrees out of phase (default: pinA = 3, pinB = 4)
 	 *  -- currentA: current state of the pinA
 	 *  -- lastA: the last state of the pinA
 	 *  -- counter: a counter to approximate position (if needed)
