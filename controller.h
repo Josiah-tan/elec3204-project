@@ -25,9 +25,10 @@ class Controller {
 		}
 		float _i(int error, int cache_error, float delta_t) {
 			area += (cache_error + error) * delta_t / 2;
-			if (area < -5 || area > 5){
-				area = 0;
-			}
+			area = constrain(area, -5, 5);
+			// if (area < -5 || area > 5){
+			// 	area = 0;
+			// }
 			Serial.print("i: ");
 			Serial.println(area);
 			return I * area;
