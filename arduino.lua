@@ -89,7 +89,7 @@ end
 -- member function GUI: utilizes telescope API to create a new custom finder for command selection
 M.gui = function(opts)
 		opts = vim.tbl_deep_extend("force", {
-			commands = {"quick cycle", "regular wash", "stop"}
+			commands = {"pause", "normal", "quick", "stop", "gentle", "test", "terminate"}
 		}, opts or {})
 		require("telescope.pickers").new(opts, {
 			prompt_title = "choose command > ",

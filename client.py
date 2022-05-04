@@ -51,16 +51,25 @@ import os
 
 """
 commands:
+    stop: stops the program indefinitely until another command is run
     pause: pauses for 2 seconds
-    quick cycle: quickly washes things in the washing machine
-    regular wash: washes in a regular way
+    normal: the normal mode for washing clothes
+    quick: quickly washes the clothes
+    gentle: washes the clothes at a slow pace
     test: testing in both forward and backwards directions
+    terminate: stop the program
 """
+
+medium = 50
+high = 75
+slow = 25
+
 commands = {
         "stop": [[0, -1]],
         "pause": [[0, 2]],
-        "quick cycle": ["pause", [100, 5], "pause"],
-        "regular wash": ["pause", [100, 10], "pause"],
+        "normal": ["pause", [medium, 4], [-medium, 4], [high, 2], "stop"],
+        "quick": ["pause", [medium, 2], [-medium, 2], [high, 2], "stop"],
+        "gentle": ["pause", [slow, 4], [-slow, 4], [medium, 2], "stop"],
         "test": [[100, 3], [0, 3], [-100, 3], [0, 3]]
         }
 
